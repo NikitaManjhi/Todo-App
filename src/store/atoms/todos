@@ -1,0 +1,16 @@
+import { atom } from "recoil";
+
+export const todosAtom = atom({
+    key: "todosKey",
+    default: [],
+})
+
+export const inputTitle=atom({
+    key: "inputTitle",
+    default: "",
+})
+
+export const inputDesc=atom({
+    key: "inputDesc",
+    default: "",
+})
