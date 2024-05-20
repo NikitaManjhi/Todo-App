@@ -1,11 +1,11 @@
 import { useRecoilValue, useRecoilState } from "recoil";
 import { todosAtom, inputTitle, inputDesc } from "./store/atoms/todos";
-import {memo} from 'react';
+import { memo } from "react";
 function App() {
   const [todos, setTodos] = useRecoilState(todosAtom);
   const [title, setTitle] = useRecoilState(inputTitle);
   const [desc, setDesc] = useRecoilState(inputDesc);
-  const addTodo=function(){
+  const addTodo = function () {
     const todoNew = {
       id: Math.floor(Math.random() * 1000),
       title: title,
@@ -15,7 +15,7 @@ function App() {
     setTodos([...todos, todoNew]);
     setTitle("");
     setDesc("");
-  }
+  };
   return (
     <>
       <input
@@ -34,30 +34,39 @@ function App() {
       />
       <button onClick={addTodo}>Add Task</button>
       <br />
-      <TodoDisplay />
+      <TodoDisplay todo={todos} />
     </>
   );
 }
 
-function Todo({todo}) {
-  const [todos,setTodos] = useRecoilState(todosAtom)
-  const todoCompleted=function(){
-    let index=todos.indexOf(todo);
-    let updatedTodo=todos.map((t,i)=>(i==index?{...t,completed:true}:t))
+function Todo({ todo }) {
+  const [todos, setTodos] = useRecoilState(todosAtom);
+  const todoCompleted = function () {
+    let index = todos.indexOf(todo);
+    let updatedTodo = todos.map((t, i) =>
+      i == index ? { ...t, completed: true } : t
+    );
     setTodos(updatedTodo);
-  }
+  };
   return (
     <div>
-      <h2 style={{textDecorationLine: todo.completed? 'line-through':'none'}}>{todo.title}</h2>
-      <p style={{textDecorationLine: todo.completed? 'line-through':'none'}}>{todo.desc}</p>
+      <h2
+        style={{ textDecorationLine: todo.completed ? "line-through" : "none" }}
+      >
+        {todo.title}
+      </h2>
+      <p
+        style={{ textDecorationLine: todo.completed ? "line-through" : "none" }}
+      >
+        {todo.desc}
+      </p>
       <button onClick={todoCompleted}>Done</button>
       <button>Delete</button>
     </div>
   );
 }
 
-const TodoDisplay = memo(() => {
-  const todo = useRecoilValue(todosAtom);
+const TodoDisplay = memo(({ todo }) => {
   return (
     <div>
       {todo.map((t) => (
